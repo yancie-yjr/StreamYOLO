@@ -23,4 +23,4 @@ Please cite the following paper if this repo helps your research:
 ```
 
 ## License
-Copyright (C) 2021 QCraft. All rights reserved. Licensed under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode) (Attribution-NonCommercial-ShareAlike 4.0 International). The code is released for academic research use only. For commercial use, please contact [business@qcraft.ai](business@qcraft.ai).
+This repo is released under the Apache 2.0 license. Please see the LICENSE file for more information.
