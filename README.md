@@ -5,41 +5,20 @@
   <img src='example.gif' width='721'/>
 </p>
 
-[Chenxu Luo](https://chenxuluo.github.io/), [Xiaodong Yang](https://xiaodongyang.org/), [Alan Yuille](https://www.cs.jhu.edu/~ayuille/) <br>
-Exploring Simple 3D Multi-Object Tracking for Autonomous Driving, ICCV 2021<br>
-[[Paper]](https://arxiv.org/pdf/2108.10312.pdf) [[Poster]](poster.pdf) [[YouTube]](https://www.youtube.com/watch?v=awK1O-wf_74)
+[Jinrong Yang](https://scholar.google.com.hk/citations?user=8Of_NYQAAAAJ&hl=zh-CN), [Songtao Liu](https://scholar.google.com.hk/citations?hl=zh-CN&user=xY9qK1QAAAAJ), [Zeming Li](https://www.zemingli.com/), [Xiaoping Li](http://mse.hust.edu.cn/info/1143/1374.htm), [Sun Jian](http://www.jiansun.org/) <br>
+Real-time Object Detection for Streaming Perception, CVPR 2022<br> [Paper](https://scholar.google.com.hk/citations?user=8Of_NYQAAAAJ&hl=zh-CN)
 
-## Getting Started
-### Installation
-Please refer to [INSTALL](INSTALL.md) for the detail.
+The code is coming soon！
 
-### Data Preparation 
-* [nuScenes](https://www.nuscenes.org)
-```
-python ./tools/create_data.py nuscenes_data_prep --root_path=NUSCENES_TRAINVAL_DATASET_ROOT --version="v1.0-trainval" --nsweeps=10
-```
-* [Waymo Open Dataset](https://waymo.com/open/) (TODO)
-
-### Training
-```
-python -m torch.distributed.launch --nproc_per_node=8 ./tools/train.py examples/point_pillars/configs/nusc_all_pp_centernet_tracking.py --work_dir SAVE_DIR
-```
-
-### Test
-In `./model_zoo` we provide our trained (pillar based) model on nuScenes.          
-Note: We currently only support inference with a single GPU.
-```
-python ./tools/val_nusc_tracking.py examples/point_pillars/configs/nusc_all_pp_centernet_tracking.py --checkpoint CHECKPOINTFILE  --work_dir SAVE_DIR
-```
 
 ## Citation
 Please cite the following paper if this repo helps your research:
 ```bibtex
-@InProceedings{Luo_2021_ICCV,
-    author    = {Luo, Chenxu and Yang, Xiaodong and Yuille, Alan},
-    title     = {Exploring Simple 3D Multi-Object Tracking for Autonomous Driving},
-    booktitle = {International Conference on Computer Vision (ICCV)},
-    year      = {2021}
+@InProceedings{streamyolo,
+    author    = {Yang, Jinrong and Liu, Songtao and Li, Zeming and Li, Xiaoping and Sun, Jian},
+    title     = {Real-time Object Detection for Streaming Perception},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+    year      = {2022}
 }
 ```
 
