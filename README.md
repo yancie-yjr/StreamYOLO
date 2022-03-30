@@ -6,7 +6,7 @@
 </p>
 
 [Jinrong Yang](https://scholar.google.com.hk/citations?user=8Of_NYQAAAAJ&hl=zh-CN), [Songtao Liu](https://scholar.google.com.hk/citations?hl=zh-CN&user=xY9qK1QAAAAJ), [Zeming Li](https://www.zemingli.com/), [Xiaoping Li](http://mse.hust.edu.cn/info/1143/1374.htm), [Sun Jian](http://www.jiansun.org/) <br>
-Real-time Object Detection for Streaming Perception, CVPR 2022<br> 
+Real-time Object Detection for Streaming Perception, CVPR 2022 (Oral)<br> 
 [Paper](https://arxiv.org/abs/2203.12338)
 
 The code is coming soon！
