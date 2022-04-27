@@ -57,7 +57,6 @@ The hash strings represent different video sequences in Argoverse, and `ring_fro
 <details>
 <summary>Installation</summary>
 
-Step1. Install YOLOX.
 ```shell
 # basic python libraries
 conda create --name streamyolo python=3.7
@@ -67,8 +66,12 @@ pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio==0.7.2 -f htt
 pip3 install yolox==0.3
 git clone git@github.com:yancie-yjr/StreamYOLO.git
 
-# add StreamYOLO to PYTHONPATH by adding the following line to ~/.bashrc (change the path accordingly)
-export PYTHONPATH="${PYTHONPATH}:PATH_TO_StreamYOLO"
+cd StreamYOLO/
+
+# add StreamYOLO to PYTHONPATH and add this line to ~/.bashrc or ~/.zshrc (change the file accordingly)
+ADDPATH=$(pwd)
+echo export PYTHONPATH=$PYTHONPATH:$ADDPATH >> ~/.bashrc
+source ~/.bashrc
 
 # Installing `mmcv` for the official sAP evaluation:
 # Please replace `{cu_version}` and ``{torch_version}`` with the versions you are currently using. 
