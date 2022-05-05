@@ -14,11 +14,11 @@ Real-time Object Detection for Streaming Perception, CVPR 2022 (Oral)<br>
 
 |Model |size |velocity | sAP<br>0.5:0.95 | sAP50 |sAP75| weights | COCO pretrained weights |
 | ------        |:---: | :---:       |:---:     |:---:  | :---: | :----: | :----: |
-|[StreamYOLO-s](./cfgs/s_s50_onex_dfp_tal_flip.py)    |600×960  |1x      |29.8     |50.3 | 29.8 |[github](/yancie-yjr/StreamYOLO/releases/download/0.1.0rc/s_s50_one_x.pth) |[github](/yancie-yjr/StreamYOLO/releases/download/0.1.0rc/yolox_s.pth) |
-|[StreamYOLO-m](./cfgs/m_s50_onex_dfp_tal_flip.py)    |600×960  |1x      |33.7     |54.5 |34.0|[github](/yancie-yjr/StreamYOLO/releases/download/0.1.0rc/m_s50_one_x.pth) |[github](/yancie-yjr/StreamYOLO/releases/download/0.1.0rc/yolox_m.pth) |
-|[StreamYOLO-l](./cfgs/l_s50_onex_dfp_tal_flip.py)    |600×960  |1x  |36.9 |58.1| 37.5 |[github](/yancie-yjr/StreamYOLO/releases/download/0.1.0rc/l_s50_one_x.pth) |[github](/yancie-yjr/StreamYOLO/releases/download/0.1.0rc/yolox_l.pth) |
-|[StreamYOLO-l](./cfgs/l_s50_twox_dfp_tal_flip.py)   |600×960  |2x      | 34.6 |56.3|34.7 |[github](/yancie-yjr/StreamYOLO/releases/download/0.1.0rc/l_s50_two_x.pth) |[github](/yancie-yjr/StreamYOLO/releases/download/0.1.0rc/yolox_l.pthh) |
-|[StreamYOLO-l](./cfgs/l_s50_still_dfp_flip.py)   |600×960  | still      | 39.4 |60.0 | 40.2 |[github](/yancie-yjr/StreamYOLO/releases/download/0.1.0rc/l_s50_still.pth) |[github](/yancie-yjr/StreamYOLO/releases/download/0.1.0rc/yolox_l.pth) |
+|[StreamYOLO-s](./cfgs/s_s50_onex_dfp_tal_flip.py)    |600×960  |1x      |29.8     |50.3 | 29.8 |[github](./releases/download/0.1.0rc/s_s50_one_x.pth) |[github](./releases/download/0.1.0rc/yolox_s.pth) |
+|[StreamYOLO-m](./cfgs/m_s50_onex_dfp_tal_flip.py)    |600×960  |1x      |33.7     |54.5 |34.0|[github](./releases/download/0.1.0rc/m_s50_one_x.pth) |[github](./releases/download/0.1.0rc/yolox_m.pth) |
+|[StreamYOLO-l](./cfgs/l_s50_onex_dfp_tal_flip.py)    |600×960  |1x  |36.9 |58.1| 37.5 |[github](./releases/download/0.1.0rc/l_s50_one_x.pth) |[github](./releases/download/0.1.0rc/yolox_l.pth) |
+|[StreamYOLO-l](./cfgs/l_s50_twox_dfp_tal_flip.py)   |600×960  |2x      | 34.6 |56.3|34.7 |[github](/yancie-yjr/StreamYOLO/releases/download/0.1.0rc/l_s50_two_x.pth) |[github](./releases/download/0.1.0rc/yolox_l.pth) |
+|[StreamYOLO-l](./cfgs/l_s50_still_dfp_flip.py)   |600×960  | still      | 39.4 |60.0 | 40.2 |[github](./releases/download/0.1.0rc/l_s50_still.pth) |[github](./releases/download/0.1.0rc/yolox_l.pth) |
 
 ## Quick Start
 
@@ -74,7 +74,7 @@ echo export PYTHONPATH=$PYTHONPATH:$ADDPATH >> ~/.bashrc
 source ~/.bashrc
 
 # Installing `mmcv` for the official sAP evaluation:
-# Please replace `{cu_version}` and ``{torch_version}`` with the versions you are currently using. 
+# Please replace `{cu_version}` and ``{torch_version}`` with the versions you are currently using.
 # You will get import or runtime errors if the versions are incorrect.
 pip install mmcv-full==1.1.5 -f https://download.openmmlab.com/mmcv/dist/{cu_version}/{torch_version}/index.html
 
