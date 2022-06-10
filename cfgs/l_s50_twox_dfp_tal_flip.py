@@ -30,7 +30,7 @@ class Exp(MyExp):
 
         self.exp_name = os.path.split(os.path.realpath(__file__))[1].split(".")[0]
 
-        self.output_dir = '/data/output/stream_yolo'
+        self.output_dir = './data/output/stream_yolo'
 
     def get_model(self):
         from exps.model.yolox import YOLOX
@@ -67,7 +67,7 @@ class Exp(MyExp):
         )
 
         dataset = TWO_ARGOVERSEDataset(
-            data_dir='/data',
+            data_dir='./data',
             json_file=self.train_ann,
             name='train',
             img_size=self.input_size,
@@ -117,13 +117,22 @@ class Exp(MyExp):
         from exps.StreamYOLO.dataset.tal_flip_two_future_argoversedataset import TWO_ARGOVERSEDataset
         from exps.StreamYOLO.data.data_augment_flip import DoubleTrainTransform
 
-        valdataset = TWO_ARGOVERSEDataset(
-            data_dir='/data',
-            json_file='val.json',
-            name='val',
-            img_size=self.test_size,
-            preproc=DoubleTrainTransform(),
-        )
+        if testdev == True:
+            valdataset = TWO_ARGOVERSEDataset(
+                data_dir='./data',
+                json_file='test-meta.json',
+                name='test',
+                img_size=self.test_size,
+                preproc=DoubleTrainTransform(),
+            )
+        else:
+            valdataset = TWO_ARGOVERSEDataset(
+                data_dir='./data',
+                json_file='val.json',
+                name='val',
+                img_size=self.test_size,
+                preproc=DoubleTrainTransform(),
+            )
 
         if is_distributed:
             batch_size = batch_size // dist.get_world_size()

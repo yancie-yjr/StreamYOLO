@@ -18,7 +18,7 @@ class ONE_ARGOVERSEDataset(Dataset):
     """
     COCO dataset class.
     """
-    def __init__(self, data_dir='/data/Datasets/', json_file='train.json',
+    def __init__(self, data_dir='./data/Datasets/', json_file='train.json',
                  name='train', img_size=(416,416), preproc=None, cache=False):
         """
         COCO dataset initialization. Annotation data are read into memory by COCO API.
@@ -32,6 +32,7 @@ class ONE_ARGOVERSEDataset(Dataset):
         """
         super().__init__(img_size)
         self.data_dir = data_dir
+        print("data_dir", data_dir)
         self.json_file = json_file
         self.coco = COCO(self.data_dir+'/Argoverse-HD/annotations/'+self.json_file)
         self.ids = self.coco.getImgIds()

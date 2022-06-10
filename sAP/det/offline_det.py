@@ -24,8 +24,8 @@ from det.det_apis import init_detector, inference_detector
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data-root', type=str, required=True)
-    parser.add_argument('--annot-path', type=str, required=True)
+    parser.add_argument('--data_root', type=str, required=True)
+    parser.add_argument('--annot_path', type=str, required=True)
     parser.add_argument('--in-scale', type=float, default=None)
     parser.add_argument('--no-mask', action='store_true', default=False)
     parser.add_argument('--no-class-mapping', action='store_true', default=False)
