@@ -233,8 +233,21 @@ class DoubleTrainTransform:
         img2, label2 = self.trasform2(image[1], targets[1], input_dim, mirror=a)
         return img1, img2, label1, label2
 
+class QuadraTrainTransform:
+    def __init__(self, max_labels=50, hsv=True, flip=True):
+        self.max_labels = max_labels
+        self.trasform1 = TrainTransform(max_labels=max_labels, hsv=hsv, flip=flip)
+        self.trasform2 = TrainTransform(max_labels=max_labels, hsv=hsv, flip=flip)
+        self.trasform3 = TrainTransform(max_labels=max_labels, hsv=hsv, flip=flip)
+        self.trasform4 = TrainTransform(max_labels=max_labels, hsv=hsv, flip=flip)
 
-
+    def __call__(self, image, targets, input_dim):
+        a = random.randrange(3)
+        img1, label1 = self.trasform1(image[0], targets[0], input_dim, mirror=a)
+        img2, label2 = self.trasform2(image[1], targets[1], input_dim, mirror=a)
+        img3, label3 = self.trasform3(image[2], targets[2], input_dim, mirror=a)
+        img4, label4 = self.trasform4(image[3], targets[3], input_dim, mirror=a)
+        return img1, img2, img3, img4, label1, label2, label3, label4
 
 class ValTransform:
     """
@@ -273,3 +286,17 @@ class DoubleValTransform:
         img1, label1 = self.trasform1(img[0], res[0], input_size)
         img2, label2 = self.trasform2(img[1], res[1], input_size)
         return img1, img2, label1, label2
+
+class QuadraValTransform:
+    def __init__(self, swap=(2, 0, 1)):
+        self.trasform1 = ValTransform(swap=swap)
+        self.trasform2 = ValTransform(swap=swap)
+        self.trasform3 = ValTransform(swap=swap)
+        self.trasform4 = ValTransform(swap=swap)
+
+    def __call__(self, img, res, input_size):
+        img1, label1 = self.trasform1(img[0], res[0], input_size)
+        img2, label2 = self.trasform2(img[1], res[1], input_size)
+        img3, label3 = self.trasform3(img[1], res[1], input_size)
+        img4, label4 = self.trasform4(img[1], res[1], input_size)
+        return img1, img2, img3, img4, label1, label2, label3, label4

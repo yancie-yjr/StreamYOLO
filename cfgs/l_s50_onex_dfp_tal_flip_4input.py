@@ -2,10 +2,9 @@
 import os
 import sys
 import torch
+import torch.nn as nn
 import torch.distributed as dist
 from yolox.exp import Exp as MyExp
-
-import torch.nn as nn
 
 
 class Exp(MyExp):
@@ -30,11 +29,11 @@ class Exp(MyExp):
 
         self.exp_name = os.path.split(os.path.realpath(__file__))[1].split(".")[0]
 
-        self.output_dir = './data/output/stream_yolo'
+        self.output_dir = './data/output/stream_yolo_4input'
 
     def get_model(self):
         from exps.model.yolox import YOLOX
-        from exps.model.dfp_pafpn import DFPPAFPN
+        from exps.model.dfp_pafpn_4input import DFPPAFPN
         from exps.model.tal_head import TALHead
         import torch.nn as nn
 
@@ -48,7 +47,7 @@ class Exp(MyExp):
             in_channels = [256, 512, 1024]
             backbone = DFPPAFPN(self.depth, self.width, in_channels=in_channels)
             head = TALHead(self.num_classes, self.width, in_channels=in_channels, gamma=1.0,
-                             ignore_thr=0.4, ignore_value=1.5)
+                             ignore_thr=0.5, ignore_value=1.6)
             self.model = YOLOX(backbone, head)
 
         self.model.apply(init_yolo)
@@ -56,9 +55,9 @@ class Exp(MyExp):
         return self.model
 
     def get_data_loader(self, batch_size, is_distributed, no_aug=False, local_rank=0, cache_img=False):
-        from exps.dataset.tal_flip_two_future_argoversedataset import TWO_ARGOVERSEDataset
-        from exps.data.tal_flip_mosaicdetection import MosaicDetection
-        from exps.data.data_augment_flip import DoubleTrainTransform
+        from exps.dataset.tal_flip_one_future_argoversedataset_4input import ONE_ARGOVERSEDataset
+        from exps.data.tal_flip_mosaicdetection_4input import MosaicDetection
+        from exps.data.data_augment_flip import QuadraTrainTransform
         from yolox.data import (
             YoloBatchSampler,
             DataLoader,
@@ -66,19 +65,19 @@ class Exp(MyExp):
             worker_init_reset_seed,
         )
 
-        dataset = TWO_ARGOVERSEDataset(
-            data_dir='./data',
+        dataset = ONE_ARGOVERSEDataset(
+            data_dir='./data', # path to your dataset root path
             json_file=self.train_ann,
             name='train',
             img_size=self.input_size,
-            preproc=DoubleTrainTransform(max_labels=50, hsv=False, flip=True),
+            preproc=QuadraTrainTransform(max_labels=50, hsv=False, flip=True),
             cache=cache_img,
         )
 
         dataset = MosaicDetection(dataset,
                                   mosaic=not no_aug,
                                   img_size=self.input_size,
-                                  preproc=DoubleTrainTransform(max_labels=120, hsv=False, flip=True),
+                                  preproc=QuadraTrainTransform(max_labels=120, hsv=False, flip=True),
                                   degrees=self.degrees,
                                   translate=self.translate,
                                   scale=self.mosaic_scale,
@@ -114,43 +113,25 @@ class Exp(MyExp):
         return train_loader
 
     def get_eval_loader(self, batch_size, is_distributed, testdev=False):
-        from exps.dataset.tal_flip_two_future_argoversedataset import TWO_ARGOVERSEDataset
-        from exps.data.data_augment_flip import DoubleValTransform
-        # from exps.StreamYOLO.dataset.tal_flip_two_future_argoversedataset import TWO_ARGOVERSEDataset
-        # from exps.StreamYOLO.data.data_augment_flip import DoubleTrainTransform
+        from exps.dataset.tal_flip_one_future_argoversedataset_4input import ONE_ARGOVERSEDataset
+        from exps.data.data_augment_flip import QuadraValTransform
 
         if testdev == True:
-            valdataset = TWO_ARGOVERSEDataset(
+            valdataset = ONE_ARGOVERSEDataset(
                 data_dir='./data',
                 json_file='test-meta.json',
                 name='test',
                 img_size=self.test_size,
-                preproc=DoubleValTransform(),
+                preproc=QuadraValTransform(),
             )
-        else:
-            valdataset = TWO_ARGOVERSEDataset(
+        else:    
+            valdataset = ONE_ARGOVERSEDataset(
                 data_dir='./data',
                 json_file='val.json',
                 name='val',
                 img_size=self.test_size,
-                preproc=DoubleValTransform(),
+                preproc=QuadraValTransform(),
             )
-        # if testdev == True:
-        #     valdataset = TWO_ARGOVERSEDataset(
-        #         data_dir='./data',
-        #         json_file='test-meta.json',
-        #         name='test',
-        #         img_size=self.test_size,
-        #         preproc=DoubleTrainTransform(),
-        #     )
-        # else:
-        #     valdataset = TWO_ARGOVERSEDataset(
-        #         data_dir='./data',
-        #         json_file='val.json',
-        #         name='val',
-        #         img_size=self.test_size,
-        #         preproc=DoubleTrainTransform(),
-        #     )
 
         if is_distributed:
             batch_size = batch_size // dist.get_world_size()
@@ -185,6 +166,7 @@ class Exp(MyExp):
         input_size = (tensor[0].item(), tensor[1].item())
         return input_size
     
+
     def preprocess(self, inputs, targets, tsize):
         scale_y = tsize[0] / self.input_size[0]
         scale_x = tsize[1] / self.input_size[1]
@@ -199,10 +181,10 @@ class Exp(MyExp):
         return inputs, targets
 
     def get_evaluator(self, batch_size, is_distributed, testdev=False):
-        from exps.evaluators.twox_stream_evaluator import TWOX_COCOEvaluator
+        from exps.evaluators.onex_stream_evaluator import ONEX_COCOEvaluator
 
         val_loader = self.get_eval_loader(batch_size, is_distributed, testdev)
-        evaluator = TWOX_COCOEvaluator(
+        evaluator = ONEX_COCOEvaluator(
             dataloader=val_loader,
             img_size=self.test_size,
             confthre=self.test_conf,
@@ -212,11 +194,13 @@ class Exp(MyExp):
         )
         return evaluator
 
+
     def get_trainer(self, args):
         from exps.train_utils.double_trainer import Trainer
         trainer = Trainer(self, args)
         # NOTE: trainer shouldn't be an attribute of exp object
         return trainer
+
 
     def eval(self, model, evaluator, is_distributed, half=False):
         return evaluator.evaluate(model, is_distributed, half)

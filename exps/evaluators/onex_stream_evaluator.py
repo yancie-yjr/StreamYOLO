@@ -166,6 +166,7 @@ class ONEX_COCOEvaluator:
 
     def convert_to_coco_format(self, outputs, info_imgs, ids):
         data_list = []
+        # print(ids.shape)
         for (output, img_h, img_w, img_id) in zip(
                 outputs, info_imgs[0], info_imgs[1], ids
         ):
@@ -186,10 +187,12 @@ class ONEX_COCOEvaluator:
             scores = output[:, 4] * output[:, 5]
 
             for ind in range(bboxes.shape[0]):
-                print(bboxes.shape)
+                # print(bboxes.shape)
+                # print("class_ids: ", cls.shape, cls)
                 label = self.dataloader.dataset.class_ids[int(cls[ind])]
-                # modified here for nums of test dataset 
-                if int(img_id) in [12505, 12506]:
+                # modified here for nums of own test dataset 
+                if int(img_id) in [1477, 1478]:  # valset
+                # if int(img_id) in [12766, 12767]:
                     continue
                 elif self.dataloader.dataset.coco.dataset['images'][int(img_id+1)]['fid'] == 0:
                     continue
@@ -246,8 +249,10 @@ class ONEX_COCOEvaluator:
                 cocoDt = cocoGt.loadRes("./yolox_testdev_2017.json")
             else:
                 _, tmp = tempfile.mkstemp()
-                json.dump(data_dict, open(tmp, "w"))
-                cocoDt = cocoGt.loadRes(tmp)
+                # json.dump(data_dict, open(tmp, "w"))
+                # cocoDt = cocoGt.loadRes(tmp)
+                json.dump(data_dict, open("./yolox_l_val_0616.json", "w"))
+                cocoDt = cocoGt.loadRes("./yolox_l_val_0616.json")
                 
             try:
                 from yolox.layers import COCOeval_opt as COCOeval
