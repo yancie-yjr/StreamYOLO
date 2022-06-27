@@ -7,7 +7,7 @@
 
 [Jinrong Yang](https://scholar.google.com.hk/citations?user=8Of_NYQAAAAJ&hl=zh-CN), [Songtao Liu](https://scholar.google.com.hk/citations?hl=zh-CN&user=xY9qK1QAAAAJ), [Zeming Li](https://www.zemingli.com/), [Xiaoping Li](http://mse.hust.edu.cn/info/1143/1374.htm), [Sun Jian](http://www.jiansun.org/) <br>
 Real-time Object Detection for Streaming Perception, CVPR 2022 (Oral)<br>
-[Paper](https://arxiv.org/abs/2203.12338)
+[Paper]([https://arxiv.org/abs/2203.12338](https://openaccess.thecvf.com/content/CVPR2022/papers/Yang_Real-Time_Object_Detection_for_Streaming_Perception_CVPR_2022_paper.pdf))
 
 
 ## Benchmark
@@ -141,11 +141,12 @@ bash streamyolo.sh
 ## Citation
 Please cite the following paper if this repo helps your research:
 ```bibtex
-@InProceedings{streamyolo,
-    author    = {Yang, Jinrong and Liu, Songtao and Li, Zeming and Li, Xiaoping and Sun, Jian},
-    title     = {Real-time Object Detection for Streaming Perception},
-    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
-    year      = {2022}
+@inproceedings{streamyolo,
+  title={Real-time Object Detection for Streaming Perception},
+  author={Yang, Jinrong and Liu, Songtao and Li, Zeming and Li, Xiaoping and Sun, Jian},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={5385--5395},
+  year={2022}
 }
 ```
 
