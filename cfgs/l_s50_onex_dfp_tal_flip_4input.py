@@ -29,11 +29,11 @@ class Exp(MyExp):
 
         self.exp_name = os.path.split(os.path.realpath(__file__))[1].split(".")[0]
 
-        self.output_dir = './data/output/stream_yolo'
+        self.output_dir = './data/output/stream_yolo_4input'
 
     def get_model(self):
         from exps.model.yolox import YOLOX
-        from exps.model.dfp_pafpn import DFPPAFPN
+        from exps.model.dfp_pafpn_4input import DFPPAFPN
         from exps.model.tal_head import TALHead
         import torch.nn as nn
 
@@ -55,9 +55,9 @@ class Exp(MyExp):
         return self.model
 
     def get_data_loader(self, batch_size, is_distributed, no_aug=False, local_rank=0, cache_img=False):
-        from exps.dataset.tal_flip_one_future_argoversedataset import ONE_ARGOVERSEDataset
-        from exps.data.tal_flip_mosaicdetection import MosaicDetection
-        from exps.data.data_augment_flip import DoubleTrainTransform
+        from exps.dataset.tal_flip_one_future_argoversedataset_4input import ONE_ARGOVERSEDataset
+        from exps.data.tal_flip_mosaicdetection_4input import MosaicDetection
+        from exps.data.data_augment_flip import QuadraTrainTransform
         from yolox.data import (
             YoloBatchSampler,
             DataLoader,
@@ -70,14 +70,14 @@ class Exp(MyExp):
             json_file=self.train_ann,
             name='train',
             img_size=self.input_size,
-            preproc=DoubleTrainTransform(max_labels=50, hsv=False, flip=True),
+            preproc=QuadraTrainTransform(max_labels=50, hsv=False, flip=True),
             cache=cache_img,
         )
 
         dataset = MosaicDetection(dataset,
                                   mosaic=not no_aug,
                                   img_size=self.input_size,
-                                  preproc=DoubleTrainTransform(max_labels=120, hsv=False, flip=True),
+                                  preproc=QuadraTrainTransform(max_labels=120, hsv=False, flip=True),
                                   degrees=self.degrees,
                                   translate=self.translate,
                                   scale=self.mosaic_scale,
@@ -113,8 +113,8 @@ class Exp(MyExp):
         return train_loader
 
     def get_eval_loader(self, batch_size, is_distributed, testdev=False):
-        from exps.dataset.tal_flip_one_future_argoversedataset import ONE_ARGOVERSEDataset
-        from exps.data.data_augment_flip import DoubleValTransform
+        from exps.dataset.tal_flip_one_future_argoversedataset_4input import ONE_ARGOVERSEDataset
+        from exps.data.data_augment_flip import QuadraValTransform
 
         if testdev == True:
             valdataset = ONE_ARGOVERSEDataset(
@@ -122,7 +122,7 @@ class Exp(MyExp):
                 json_file='test-meta.json',
                 name='test',
                 img_size=self.test_size,
-                preproc=DoubleValTransform(),
+                preproc=QuadraValTransform(),
             )
         else:    
             valdataset = ONE_ARGOVERSEDataset(
@@ -130,7 +130,7 @@ class Exp(MyExp):
                 json_file='val.json',
                 name='val',
                 img_size=self.test_size,
-                preproc=DoubleValTransform(),
+                preproc=QuadraValTransform(),
             )
 
         if is_distributed:
@@ -194,11 +194,13 @@ class Exp(MyExp):
         )
         return evaluator
 
+
     def get_trainer(self, args):
         from exps.train_utils.double_trainer import Trainer
         trainer = Trainer(self, args)
         # NOTE: trainer shouldn't be an attribute of exp object
         return trainer
+
 
     def eval(self, model, evaluator, is_distributed, half=False):
         return evaluator.evaluate(model, is_distributed, half)
