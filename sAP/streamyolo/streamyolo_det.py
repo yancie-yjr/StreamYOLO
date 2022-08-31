@@ -38,7 +38,7 @@ def parse_args():
     parser.add_argument('--no-class-mapping', action='store_true', default=False)
     parser.add_argument('--cpu-pre', action='store_true', default=False)
     parser.add_argument('--dynamic-schedule', action='store_true', default=False)
-    parser.add_argument('--out-dir', type=str, required=True)
+    parser.add_argument('--out_dir', type=str, required=True)
     parser.add_argument('--config', type=str, required=True)
     parser.add_argument('--weights', type=str, required=True)
     parser.add_argument('--overwrite', action='store_true', default=False)
