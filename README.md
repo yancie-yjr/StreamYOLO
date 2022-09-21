@@ -37,11 +37,10 @@ StreamYOLO
 ├── yolox
 ├── data
 │   ├── Argoverse-1.1
-│   │   ├── annotations
-│   │       ├── tracking
-│   │           ├── train
-│   │           ├── val
-│   │           ├── test
+│   │   ├── tracking
+│   │       ├── train
+│   │       ├── val
+│   │       ├── test
 │   ├── Argoverse-HD
 │   │   ├── annotations
 │   │       ├── test-meta.json
